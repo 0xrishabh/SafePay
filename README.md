@@ -1,5 +1,13 @@
-# SafePay
+# Sample Hardhat Project
 
-	Buy Subscribtion or pay somehow periodically, directly through your safe
+This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
 
-	Also Acts like `DCA module` https://twitter.com/devanoneth/status/1592379609278189568?s=46&t=nmBMlQyEBTj1nBr3HircKQ
+Try running some of the following tasks:
+
+```shell
+npx hardhat help
+npx hardhat test
+REPORT_GAS=true npx hardhat test
+npx hardhat node
+npx hardhat run scripts/deploy.js
+```
