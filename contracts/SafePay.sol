@@ -30,7 +30,7 @@ contract SafePay{
 		string message;
 
 		// chaging values
-		uint256 lastPayment;
+		uint256 nextPayment;
 		bool approved;
 		bool isNew;
 	}
@@ -80,7 +80,7 @@ contract SafePay{
 			amount, // amount
 			timePeriod, // timePeriod
 			message, // message
-			0, // lastPayment
+			0, // nextPayment
 			false, // isApproved
 			true // isNew
 		);
@@ -110,20 +110,29 @@ contract SafePay{
 		Payment memory paymentRequest = paymentRequests[id];
 		require(isAuthorized(id), "Not Authorized");
 		require(
-			paymentRequest.lastPayment==0 || 
-			paymentRequest.lastPayment - paymentRequest.timePeriod >= paymentRequest.timePeriod,
-			"Can't Charge Out of time"
+			paymentRequest.nextPayment <= block.timestamp,
+			"There is still time remaining for the claim"
 		);
 
-		GnosisSafe(paymentRequest.payer).execTransactionFromModuleReturnData(
-			paymentRequest.token,
-			0,
-			abi.encodeWithSelector(bytes4(keccak256("transfer(address,uint256)")), paymentRequest.reciever, paymentRequest.amount),
-			Enum.Operation.Call
-		);
-
-		paymentRequests[id].lastPayment = block.timestamp;
-
+		if(paymentRequest.token == address(0)){
+			GnosisSafe(paymentRequest.payer).execTransactionFromModuleReturnData(
+				paymentRequest.reciever,
+				0,
+				"",
+				Enum.Operation.Call
+			);
+		}else{
+			GnosisSafe(paymentRequest.payer).execTransactionFromModuleReturnData(
+				paymentRequest.token,
+				0,
+				abi.encodeWithSelector(bytes4(keccak256("transfer(address,uint256)")), paymentRequest.reciever, paymentRequest.amount),
+				Enum.Operation.Call
+			);
+		}
+		paymentRequests[id].nextPayment += paymentRequest.timePeriod;
+		if(paymentRequest.timePeriod == 0){
+			paymentRequests[id].approved = false;
+		}
 	}
 
 	function acceptRequest(bytes32 id) public {

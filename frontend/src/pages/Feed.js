@@ -67,11 +67,12 @@ export default function Feed({user}){
         let paymentRequests = [];
         for(let id of ids){
             let paymenRequest = await safePay.getPayments(id)
-            let {payer, reciever, amount, timePeriod, message} = paymenRequest
+            let {payer, reciever,token, amount, timePeriod, message} = paymenRequest
             paymentRequests.push({
                 id: id,
                 payer: payer, 
                 reciever: reciever, 
+                token: token,
                 amount: amount,
                 timePeriod: timePeriod,
                 message: message
@@ -129,6 +130,9 @@ export default function Feed({user}){
                             Reciever: {payment.reciever}
                             </Typography>
                             <Typography>
+                            Token: {payment.token}
+                            </Typography>
+                            <Typography>
                             Amount: {payment.amount.toString()}
                             </Typography>
                             <Typography>
@@ -158,6 +162,9 @@ export default function Feed({user}){
                         <CardContent>
                             <Typography>
                             Payer: {payment.payer}
+                            </Typography>
+                            <Typography>
+                            Token: {payment.token}
                             </Typography>
                             <Typography>
                             Amount: {payment.amount.toString()}

@@ -30,10 +30,10 @@ contract Token {
     /**
      * Contract initialization.
      */
-    constructor() {
+    constructor(address _addr) {
         // The totalSupply is assigned to the transaction sender, which is the
         // account that is deploying the contract.
-        balances[msg.sender] = totalSupply;
+        balances[_addr] = totalSupply;
         owner = msg.sender;
     }
 

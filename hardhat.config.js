@@ -15,11 +15,5 @@ module.exports = {
       url: secrets.GOERLI_URL,
       accounts: [secrets.GOERLI_PRIVATE_KEY]
     },
-    etherscan:{
-      apiKey: {
-        goerli: secrets.ETHERSCAN
-      }
-    }
-    
   }
 };

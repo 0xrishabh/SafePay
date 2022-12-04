@@ -18,6 +18,9 @@
   "homepage": "https://github.com/0xrishabh/SafePay#readme",
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^2.0.0",
+    "@nomiclabs/hardhat-ethers": "^2.2.1",
+    "@openzeppelin/hardhat-upgrades": "^1.21.0",
+    "ethers": "^5.7.2",
     "hardhat": "^2.12.3"
   },
   "dependencies": {

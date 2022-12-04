@@ -3,6 +3,7 @@
 
 const path = require("path");
 const fs = require("fs");
+const { ethers, upgrades } = require('hardhat');
 
 async function main() {
   // This is just a convenience check
@@ -22,13 +23,14 @@ async function main() {
   );
 
   console.log("Account balance:", (await deployer.getBalance()).toString());
-
+  
+  const Gnosis_safe = "0x5992d889d8955B18fb71D0fE2C4A1f9C4BeE4a2a"
   const Token = await ethers.getContractFactory("Token");
-  const token = await Token.deploy();
+  const token = await Token.deploy(Gnosis_safe);
   await token.deployed();
 
   console.log("Token address:", token.address);
-  
+  /*
   const SafePay = await ethers.getContractFactory("SafePay");
   const safePay = await SafePay.deploy();
   await safePay.deployed();
@@ -83,7 +85,7 @@ function saveFrontendFiles(contract, name) {
     JSON.stringify(data, undefined, 2)
   );
 
-  
+  */
 }
 
 main()

@@ -14,7 +14,7 @@ export async function approve(id) {
         return 
     }
     const config = {
-        SAFE_ADDRESS: '0x5992d889d8955B18fb71D0fE2C4A1f9C4BeE4a2a',
+        SAFE_ADDRESS: '0x387fAa94F68739C4D8A514D54590177E5a2D4bD1',
         TX_SERVICE_URL: 'https://safe-transaction-goerli.safe.global/' // Check https://docs.safe.global/backend/available-services
       }
       
@@ -45,7 +45,7 @@ export async function approve(id) {
 
   // Create transaction
   const safeTransactionData = {
-    to: "0x4577A292ceE8f3B32853A1E16a425EcA2aF388dd",
+    to: "0xb60bB6d073c9B55e88893BbF50DC3443D3B5647E",
     value: '0', // 1 wei
     data: calldata,
     operation: OperationType.Call

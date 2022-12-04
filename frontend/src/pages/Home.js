@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import getContract from "../utils/GetContract";
 import { Button } from "@material-tailwind/react";
-
+import Alert from '@mui/material/Alert';
 
 
 export default function Home(){
@@ -11,8 +11,14 @@ export default function Home(){
     const [amount, setAmount] = useState(0);
     const [message, setMessage] = useState("");
     const [timePeriod, setTimePeriod] = useState(0);
-    //const [timePeriod, setTimePeriod] = useState(0);
+    const [timeClass, setTimeClass] = useState("");
     const [id, setId] = useState("")
+    const timeConversion = {
+        "-": 1,
+        "day": 86400,
+        "month": 2628000,
+        "year": 31556952
+    }
 
     const createRequest = async () => {
         console.log(payer)
@@ -29,15 +35,17 @@ export default function Home(){
         console.log("Create Reques")
         console.log("Amount - ", amount)
         let contract = getContract()["safePay"]
+        let calcTimePeriod = timeConversion[timeClass]*timePeriod
         let tx = await contract.createRequest(
             payer,
             reciever,
             token,
             amount, 
-            timePeriod,
+            calcTimePeriod,
             message
         )
         let txr = await tx.wait()
+        
         console.log("ID ", txr)
     };
     
@@ -95,7 +103,8 @@ export default function Home(){
                 onChange={(e) => setTimePeriod(e.target.value)}
                 placeholder="10"/>
                 <div class="relative">
-                    <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                    <select onChange={(e)=>setTimeClass(e.target.value)} class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                    <option>-</option>
                     <option>day</option>
                     <option>Month</option>
                     <option>Year</option>
